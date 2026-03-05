@@ -1,0 +1,30 @@
+{
+  "id": "creative-studio-portfolio",
+  "skill": "3d-website-architect",
+  "niche": "Creative / Design Studio",
+  "project_name": "Nebula Creative",
+  "prompt": "Create a portfolio website for Nebula Creative, a design and motion studio. Use Next.js, TypeScript, and Tailwind CSS. Feature a morphing 3D organic blob as the hero element, built with React Three Fiber and custom noise-based vertex shaders. Add GSAP ScrollTrigger for cinematic text reveals on scroll. Implement a filterable project gallery with 3D tilt hover effects. Use a warm dark color scheme with coral/orange accents. Full-screen contact section at the bottom.",
+  "tech_stack": [
+    "Next.js 14+ (App Router)",
+    "TypeScript",
+    "Tailwind CSS",
+    "React Three Fiber",
+    "@react-three/drei",
+    "GSAP + ScrollTrigger",
+    "Framer Motion"
+  ],
+  "expected_sections": [
+    "3D Hero with morphing organic blob",
+    "Studio introduction with GSAP text reveals",
+    "Filterable project gallery",
+    "Team or process section",
+    "Full-screen contact section"
+  ],
+  "expected_3d_features": [
+    "Morphing blob with noise vertex shader",
+    "Custom ShaderMaterial with time-based uniforms",
+    "Smooth blob animation loop",
+    "Responsive 3D scaling"
+  ],
+  "design_notes": "Warm dark theme (#1A1A1A base), coral/orange accents (#FF6B35 range), editorial typography, smooth GSAP ScrollTrigger choreography"
+}

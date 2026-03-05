@@ -1,0 +1,32 @@
+{
+  "id": "cybersecurity-landing",
+  "skill": "3d-website-architect",
+  "niche": "Cybersecurity / Enterprise",
+  "project_name": "ShieldNet",
+  "prompt": "Design and build a cybersecurity product page for ShieldNet, an enterprise threat detection platform. Use Next.js, TypeScript, and Tailwind CSS. Include a 3D interactive globe built with React Three Fiber showing real-time threat connection arcs between points. Add animated stat counters, a dark enterprise-grade theme with green accent colors, trust-building sections with compliance badges, an integration partners logo grid, and a demo request CTA. Performance must be excellent — FCP under 1.5s.",
+  "tech_stack": [
+    "Next.js 14+ (App Router)",
+    "TypeScript",
+    "Tailwind CSS",
+    "React Three Fiber",
+    "@react-three/drei",
+    "Framer Motion",
+    "GSAP"
+  ],
+  "expected_sections": [
+    "3D Globe hero with connection arcs",
+    "Animated stats / key metrics",
+    "Feature highlights",
+    "Trust / compliance badges",
+    "Integration partners grid",
+    "Demo request CTA"
+  ],
+  "expected_3d_features": [
+    "3D globe with dot/point markers",
+    "Animated arc connections between points",
+    "Slow auto-rotation",
+    "Mouse interaction for globe rotation",
+    "Green emissive materials for threat indicators"
+  ],
+  "design_notes": "Deep dark theme (#0D1117 base), matrix-green accents (#00FF41 / #10B981), monospace fonts for data elements, enterprise-grade trust layout"
+}

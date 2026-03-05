@@ -1,0 +1,31 @@
+{
+  "id": "ai-code-review-landing",
+  "skill": "3d-website-architect",
+  "niche": "AI / SaaS",
+  "project_name": "CodeLens AI",
+  "prompt": "Build a premium landing page for CodeLens AI, an AI-powered code review platform. Use Next.js with App Router, TypeScript, and Tailwind CSS. Add React Three Fiber for a 3D hero section with floating code block geometry and an AI analysis sphere with bloom post-processing. Include Framer Motion scroll animations, a features grid showcasing 4 key capabilities, a pricing section with 3 tiers, testimonials, and a strong CTA. Dark theme with blue-purple accent colors.",
+  "tech_stack": [
+    "Next.js 14+ (App Router)",
+    "TypeScript",
+    "Tailwind CSS",
+    "React Three Fiber",
+    "@react-three/drei",
+    "@react-three/postprocessing",
+    "Framer Motion"
+  ],
+  "expected_sections": [
+    "3D Hero with floating geometry + AI sphere",
+    "Features grid (4 capabilities)",
+    "Pricing table (3 tiers)",
+    "Testimonials",
+    "Call-to-action"
+  ],
+  "expected_3d_features": [
+    "R3F Canvas with Suspense fallback",
+    "Floating code block geometry with rotation",
+    "Central AI analysis sphere with emissive material",
+    "Bloom post-processing via EffectComposer",
+    "Mouse-follow camera movement"
+  ],
+  "design_notes": "Dark background (#0A0A0F range), blue-to-purple gradient accents, glassmorphism cards, Inter + JetBrains Mono fonts"
+}

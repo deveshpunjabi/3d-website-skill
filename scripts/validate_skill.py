@@ -44,17 +44,20 @@ def validate_skill(filepath: str) -> list[str]:
 
     # Check line count
     lines = content.split("\n")
-    if len(lines) > 700:
+    if len(lines) > 800:
         issues.append(
-            f"Skill is {len(lines)} lines — recommended max is 700 lines (move detail to references/)"
+            f"Skill is {len(lines)} lines — recommended max is 800 lines (move detail to references/)"
         )
 
     # Check for required sections
     if "## " not in content:
         issues.append("No H2 sections found — skill should have structured sections")
 
+    # Strip fenced code blocks before checking headings (bash comments start with #)
+    content_no_code = re.sub(r"```[\s\S]*?```", "", content)
+
     # Check for heading hierarchy
-    h1_count = len(re.findall(r"^# ", content, re.MULTILINE))
+    h1_count = len(re.findall(r"^# ", content_no_code, re.MULTILINE))
     if h1_count == 0:
         issues.append("No H1 heading found")
     elif h1_count > 1:

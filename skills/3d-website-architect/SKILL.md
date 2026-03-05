@@ -541,6 +541,123 @@ Prepare the final deployment-ready build.
 
 ---
 
+## Step 14 — Final Automated Testing & Error Resolution (MANDATORY)
+
+**This step is non-negotiable.** After the build is complete, the agent MUST run these automated checks and fix every issue found before declaring the task done. Do NOT skip this step. Do NOT hand back to the user with unresolved errors.
+
+### 14.1 — Build Verification
+
+Run the production build and capture all errors:
+
+```bash
+# Install dependencies (catch missing packages)
+npm install
+
+# Run TypeScript compiler — catch ALL type errors
+npx tsc --noEmit
+
+# Run the production build — catch build-time errors
+npm run build
+```
+
+**If any command fails:**
+1. Read the full error output
+2. Fix every error in the source code
+3. Re-run the failing command
+4. Repeat until zero errors
+
+### 14.2 — Lint & Code Quality
+
+```bash
+# Run ESLint — catch code quality issues
+npx next lint
+
+# Check for unused imports and variables
+npx tsc --noEmit --noUnusedLocals --noUnusedParameters 2>&1 || true
+```
+
+Fix all lint errors. Warnings should be reviewed — fix if they indicate real problems.
+
+### 14.3 — Runtime Smoke Test
+
+```bash
+# Start the dev server and verify it boots without crashing
+npm run dev &
+sleep 5
+
+# Check if the server is responding
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+# Must return 200
+
+# Kill the dev server
+kill %1 2>/dev/null || true
+```
+
+If the server crashes on boot, read the terminal output, fix the error, and retry.
+
+### 14.4 — Component-Level Error Scan
+
+Check every component file for common issues:
+
+| Check | What to Look For | Fix |
+|-------|-----------------|-----|
+| **Import errors** | Importing from non-existent files or packages | Add missing dependencies or fix import paths |
+| **Type mismatches** | Props passed incorrectly between components | Align prop types with usage |
+| **Missing keys** | `.map()` without `key` prop | Add unique `key` to mapped elements |
+| **Hydration mismatches** | `window`/`document` used at top level in SSR | Wrap in `useEffect` or dynamic import with `ssr: false` |
+| **Three.js SSR crashes** | R3F components imported in server components | Use `'use client'` directive, dynamic import Canvas |
+| **Missing Suspense** | R3F `<Canvas>` without `<Suspense>` boundary | Wrap 3D scenes in `<Suspense fallback={...}>` |
+| **Event handler types** | `onClick` handlers with wrong TypeScript types | Use `React.MouseEvent<HTMLElement>` |
+| **Image optimization** | `<img>` tags instead of `next/image` | Replace with `<Image>` component |
+
+### 14.5 — 3D-Specific Error Check
+
+| Check | Command / Method | Fix |
+|-------|-----------------|-----|
+| **WebGL context** | Verify `<Canvas>` renders without console errors | Add error boundary, check WebGL support |
+| **Shader compilation** | Check for GLSL errors in custom shaders | Fix shader syntax, test uniforms |
+| **Model loading** | Verify `.glb/.gltf` files load without 404 | Check paths, ensure files are in `public/` |
+| **Memory leaks** | Verify `useEffect` cleanup disposes geometries/materials | Add cleanup: `geometry.dispose()`, `material.dispose()` |
+| **Post-processing** | Verify `EffectComposer` doesn't crash on mount | Check import paths, verify peer dependencies |
+
+### 14.6 — Cross-Page Navigation Test
+
+If the site has multiple pages/routes:
+
+```bash
+# Check all routes return 200
+for route in "/" "/about" "/pricing" "/contact"; do
+  status=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000$route")
+  echo "$route -> $status"
+done
+```
+
+### 14.7 — Final Error Resolution Loop
+
+```
+WHILE errors exist:
+  1. Run: npm run build
+  2. IF build fails → read error → fix → GOTO 1
+  3. Run: npx next lint
+  4. IF lint fails → read error → fix → GOTO 1
+  5. Run: npm run dev (verify server boots)
+  6. IF server crashes → read error → fix → GOTO 1
+  7. All clear → EXIT loop
+```
+
+**The agent MUST NOT declare the task complete until:**
+- [ ] `npm run build` exits with code 0
+- [ ] `npx next lint` passes (no errors)
+- [ ] `npm run dev` boots without crashing
+- [ ] No TypeScript errors (`npx tsc --noEmit` passes)
+- [ ] All pages render without console errors
+- [ ] 3D scenes load with proper Suspense boundaries
+- [ ] No hydration mismatch warnings
+
+> **Rule: If you generated the code, you own the errors. Fix them before finishing.**
+
+---
+
 ## Visual Quality Validation
 
 Before finalizing, validate against these standards. If any answer is "no" — go back and fix it.

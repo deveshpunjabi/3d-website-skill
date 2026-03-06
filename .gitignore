@@ -33,6 +33,9 @@ __pycache__/
 *.pyo
 .pytest_cache/
 
+# Skill build artifacts
+*.skill
+
 # Skill creator tooling (local only)
 .agents/
 *-workspace/

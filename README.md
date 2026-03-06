@@ -59,6 +59,34 @@ npx skills add deveshpunjabi/3d-website-architect
 Copy the `skills/3d-website-architect/` folder into your project's
 `.cursor/skills/` directory.
 
+### Windsurf
+
+Copy the `skills/3d-website-architect/` folder into your project's
+`.windsurf/skills/` directory.
+
+### Cline
+
+Copy the `skills/3d-website-architect/` folder into your project's
+`.cline/skills/` directory.
+
+### Codex / OpenAI Agents
+
+Copy the `skills/3d-website-architect/` directory into your project's
+`.codex/skills/` or `.agents/skills/` directory.
+
+### Aider
+
+Add to your `.aider.conf`:
+```
+read: path/to/skills/3d-website-architect/SKILL.md
+```
+
+### Gemini / Other Agents
+
+Copy the `skills/3d-website-architect/` directory into your agent's
+instruction or skill directory. The skill is agent-agnostic Markdown —
+it works with any LLM-based coding agent that reads instruction files.
+
 ### Manual (Any Agent)
 
 Copy the `skills/3d-website-architect/` directory into your agent's skills

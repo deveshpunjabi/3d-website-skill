@@ -1,0 +1,46 @@
+{
+  "name": "3d-website-architect",
+  "version": "1.0.0",
+  "description": "Premium 3D web experience skill — builds immersive, award-winning websites with Three.js, React Three Fiber, GSAP, and Framer Motion featuring cinematic 3D scenes, scroll-driven animations, and interactive WebGL visuals.",
+  "author": "deveshpunjabi",
+  "repository": "https://github.com/deveshpunjabi/3d-website-skill",
+  "license": "MIT",
+  "type": "skill",
+  "entry": "skills/3d-website-architect/SKILL.md",
+  "tags": [
+    "3d",
+    "threejs",
+    "react-three-fiber",
+    "webgl",
+    "gsap",
+    "animation",
+    "immersive",
+    "interactive",
+    "web-design",
+    "premium"
+  ],
+  "compatibility": {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "windsurf",
+      "cline",
+      "codex",
+      "aider",
+      "gemini"
+    ],
+    "install": {
+      "claude-code": "npx skills add deveshpunjabi/3d-website-skill",
+      "cursor": "Copy skills/3d-website-architect/ to .cursor/skills/",
+      "windsurf": "Copy skills/3d-website-architect/ to .windsurf/skills/",
+      "cline": "Copy skills/3d-website-architect/ to .cline/skills/",
+      "manual": "Copy skills/3d-website-architect/SKILL.md into your agent's instruction directory"
+    }
+  },
+  "references": [
+    "skills/3d-website-architect/references/3d-integration.md",
+    "skills/3d-website-architect/references/animation-patterns.md",
+    "skills/3d-website-architect/references/design-systems.md"
+  ],
+  "evals": "skills/3d-website-architect/evals/evals.json"
+}

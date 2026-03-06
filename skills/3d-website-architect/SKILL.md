@@ -13,6 +13,19 @@ description: >
   Three.js, React Three Fiber, WebGL, GSAP timelines, scroll-driven animations, particle systems,
   3D product visualization, or cinematic web design — even if they don't explicitly say "3D" or
   "animation".
+version: "1.0.0"
+author: deveshpunjabi
+tags:
+  - 3d
+  - threejs
+  - react-three-fiber
+  - webgl
+  - animation
+  - gsap
+  - framer-motion
+  - frontend
+  - immersive
+  - interactive
 ---
 
 # 3D Website Architect
@@ -20,6 +33,16 @@ description: >
 You are not just writing code. You are simultaneously a senior frontend engineer, a UI/UX designer, a creative developer, a 3D web developer, and a product designer. Your mission is to transform any user idea into a **high-quality modern website** with premium UI and immersive interactions.
 
 Why this matters: most AI-generated websites look generic — flat layouts, dated patterns, no sense of depth or motion. The result you produce must resemble websites created by top startups or award-winning designs found on Awwwards. A cybersecurity platform should feel dramatically different from a creative portfolio. An AI SaaS should feel different from an e-commerce store. The design, animation, and 3D integration must all serve the product.
+
+## Design Philosophy — The Immersive Premium Standard
+
+What separates a forgettable website from an award-winning one:
+
+- **3D with purpose.** Every 3D element must reinforce the product story. An AI platform gets a neural sphere. A cybersecurity tool gets a threat-detection globe. A creative agency gets morphing organic shapes. Decorative 3D with no connection to the product is worse than no 3D at all.
+- **Cinematic restraint.** One breathtaking hero scene with subtle ambient elements beats five competing 3D widgets. Reserve visual energy for moments of maximum impact.
+- **Performance is a feature.** A beautiful site that loads in 8 seconds is a failed site. Lazy-load 3D, compress assets, provide instant CSS fallbacks on mobile. Users should see content within 1.5 seconds, with 3D loading gracefully behind it.
+- **Sensory hierarchy.** Motion should guide attention, not scatter it. The hero animates boldly, scroll reveals are subtle, and ambient elements drift gently. Each level of motion has a distinct purpose.
+- **The Awwwards test.** Before delivering, compare your output to sites on Awwwards.com. If yours doesn't belong in the same conversation — iterate.
 
 The goal is NOT to generate basic templates. The goal is to produce **production-ready premium web experiences**.
 
@@ -517,19 +540,17 @@ Run production-level validation before declaring the build complete.
 
 ---
 
-## Step 13 — Production Build & Deployment
+## Step 13 — Production Build, Deployment & Error Resolution (MANDATORY)
 
-Prepare the final deployment-ready build.
+**This step is non-negotiable.** After the build is complete, the agent MUST run these checks and fix every issue before declaring the task done.
 
-### Build Steps
+### 13.1 — Build & Deploy Preparation
 
 1. Optimize bundle: tree-shake unused imports, analyze with `next build --analyze`
-2. Compress 3D assets: draco-compress glTF models, optimize textures
-3. Set proper caching headers for static assets
-4. Configure `next.config.js` for optimal output
-5. Run `next build` and verify no errors
-6. Test production build locally with `next start`
-7. Verify Core Web Vitals in production
+2. Compress 3D assets: draco-compress glTF models, optimize textures to WebP/AVIF
+3. Configure `next.config.js` for optimal output
+4. Run `next build` and verify zero errors
+5. Test production build locally with `next start`
 
 ### Deployment Targets
 
@@ -539,110 +560,36 @@ Prepare the final deployment-ready build.
 | Netlify | `netlify deploy --prod` | Good for static exports |
 | Cloudflare Pages | `wrangler pages deploy` | Edge-first, global CDN |
 
----
-
-## Step 14 — Final Automated Testing & Error Resolution (MANDATORY)
-
-**This step is non-negotiable.** After the build is complete, the agent MUST run these automated checks and fix every issue found before declaring the task done. Do NOT skip this step. Do NOT hand back to the user with unresolved errors.
-
-### 14.1 — Build Verification
-
-Run the production build and capture all errors:
+### 13.2 — Automated Error Resolution
 
 ```bash
-# Install dependencies (catch missing packages)
-npm install
-
-# Run TypeScript compiler — catch ALL type errors
-npx tsc --noEmit
-
-# Run the production build — catch build-time errors
-npm run build
+npm install          # Catch missing packages
+npx tsc --noEmit     # Catch ALL type errors
+npm run build        # Catch build-time errors
+npx next lint        # Catch code quality issues
 ```
 
-**If any command fails:**
-1. Read the full error output
-2. Fix every error in the source code
-3. Re-run the failing command
-4. Repeat until zero errors
+**If any command fails:** read the error, fix it, re-run, repeat until zero errors.
 
-### 14.2 — Lint & Code Quality
-
-```bash
-# Run ESLint — catch code quality issues
-npx next lint
-
-# Check for unused imports and variables
-npx tsc --noEmit --noUnusedLocals --noUnusedParameters 2>&1 || true
-```
-
-Fix all lint errors. Warnings should be reviewed — fix if they indicate real problems.
-
-### 14.3 — Runtime Smoke Test
-
-```bash
-# Start the dev server and verify it boots without crashing
-npm run dev &
-sleep 5
-
-# Check if the server is responding
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
-# Must return 200
-
-# Kill the dev server
-kill %1 2>/dev/null || true
-```
-
-If the server crashes on boot, read the terminal output, fix the error, and retry.
-
-### 14.4 — Component-Level Error Scan
-
-Check every component file for common issues:
+### 13.3 — 3D-Specific Error Checks
 
 | Check | What to Look For | Fix |
 |-------|-----------------|-----|
-| **Import errors** | Importing from non-existent files or packages | Add missing dependencies or fix import paths |
-| **Type mismatches** | Props passed incorrectly between components | Align prop types with usage |
-| **Missing keys** | `.map()` without `key` prop | Add unique `key` to mapped elements |
-| **Hydration mismatches** | `window`/`document` used at top level in SSR | Wrap in `useEffect` or dynamic import with `ssr: false` |
-| **Three.js SSR crashes** | R3F components imported in server components | Use `'use client'` directive, dynamic import Canvas |
-| **Missing Suspense** | R3F `<Canvas>` without `<Suspense>` boundary | Wrap 3D scenes in `<Suspense fallback={...}>` |
-| **Event handler types** | `onClick` handlers with wrong TypeScript types | Use `React.MouseEvent<HTMLElement>` |
-| **Image optimization** | `<img>` tags instead of `next/image` | Replace with `<Image>` component |
+| **WebGL context** | `<Canvas>` renders without console errors | Add error boundary, check WebGL support |
+| **Shader compilation** | GLSL errors in custom shaders | Fix shader syntax, test uniforms |
+| **Model loading** | `.glb/.gltf` files 404 | Check paths, ensure files in `public/` |
+| **Memory leaks** | `useEffect` cleanup disposes geometries/materials | Add `geometry.dispose()`, `material.dispose()` |
+| **SSR crashes** | R3F components in server components | Use `'use client'` directive, `next/dynamic` with `ssr: false` |
+| **Missing Suspense** | `<Canvas>` without `<Suspense>` boundary | Wrap 3D scenes in `<Suspense fallback={...}>` |
 
-### 14.5 — 3D-Specific Error Check
-
-| Check | Command / Method | Fix |
-|-------|-----------------|-----|
-| **WebGL context** | Verify `<Canvas>` renders without console errors | Add error boundary, check WebGL support |
-| **Shader compilation** | Check for GLSL errors in custom shaders | Fix shader syntax, test uniforms |
-| **Model loading** | Verify `.glb/.gltf` files load without 404 | Check paths, ensure files are in `public/` |
-| **Memory leaks** | Verify `useEffect` cleanup disposes geometries/materials | Add cleanup: `geometry.dispose()`, `material.dispose()` |
-| **Post-processing** | Verify `EffectComposer` doesn't crash on mount | Check import paths, verify peer dependencies |
-
-### 14.6 — Cross-Page Navigation Test
-
-If the site has multiple pages/routes:
-
-```bash
-# Check all routes return 200
-for route in "/" "/about" "/pricing" "/contact"; do
-  status=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000$route")
-  echo "$route -> $status"
-done
-```
-
-### 14.7 — Final Error Resolution Loop
+### 13.4 — Final Resolution Loop
 
 ```
 WHILE errors exist:
-  1. Run: npm run build
-  2. IF build fails → read error → fix → GOTO 1
-  3. Run: npx next lint
-  4. IF lint fails → read error → fix → GOTO 1
-  5. Run: npm run dev (verify server boots)
-  6. IF server crashes → read error → fix → GOTO 1
-  7. All clear → EXIT loop
+  1. Run: npm run build → IF fail → fix → GOTO 1
+  2. Run: npx next lint → IF fail → fix → GOTO 1
+  3. Run: npm run dev → IF crash → fix → GOTO 1
+  4. All clear → EXIT
 ```
 
 **The agent MUST NOT declare the task complete until:**
@@ -650,7 +597,6 @@ WHILE errors exist:
 - [ ] `npx next lint` passes (no errors)
 - [ ] `npm run dev` boots without crashing
 - [ ] No TypeScript errors (`npx tsc --noEmit` passes)
-- [ ] All pages render without console errors
 - [ ] 3D scenes load with proper Suspense boundaries
 - [ ] No hydration mismatch warnings
 
@@ -710,27 +656,20 @@ Understanding what fails helps you avoid it:
 | **Animation overload** | Everything moves, nothing rests | Strategic motion — animate to guide attention, not to decorate |
 | **Hover-only 3D** | Touch devices can't interact | Support both pointer and touch, provide passive animation |
 | **Decorative 3D** | 3D elements with no connection to product | Every 3D element should reinforce the product story |
+| **The gray wasteland** | Everything is gray with no visual interest | Use contrast deliberately and accent colors surgically |
+| **Lorem ipsum laziness** | Placeholder text makes design unjudgeable | Write realistic copy that matches the product's voice |
+| **Typography neglect** | All text looks the same size/weight | Build clear hierarchy: display, heading, subhead, body |
 
----
+### The "Awwwards or Redo" Test
 
-## Strict Rules
+After building, honestly evaluate:
 
-Never generate:
+1. **Screenshot test** — Put your screenshot next to Linear.app, Stripe.com, or an Awwwards winner. Does it belong?
+2. **Squint test** — Squint at the page. Clear visual hierarchy? Important elements dominant?
+3. **3-second test** — Show it for 3 seconds. Can someone tell what the product does?
+4. **Motion test** — Scroll through once. Does the animation feel choreographed or chaotic?
 
-- Basic Bootstrap or template-based layouts
-- Unstyled HTML scaffolds
-- Outdated design patterns (pre-2022 aesthetics)
-- 3D that crashes on mobile without fallback
-- Hard-coded content that can't be updated
-
-Always deliver:
-
-- Modern, premium, visually impressive output
-- Production-ready TypeScript code
-- Modular component architecture
-- Smooth 60fps animations
-- Responsive design with 3D fallbacks
-- Performance-optimized builds
+If any answer is "no" — iterate before delivery.
 
 ---
 
@@ -741,9 +680,26 @@ The AI must generate:
 - **Complete frontend code** — full Next.js project with TypeScript
 - **Modular component system** — reusable, typed, well-organized
 - **Modern responsive layout** — beautiful on every screen size
-- **Smooth animation system** — scroll reveals, hovers, micro-interactions
-- **3D interactive experience** — Three.js/R3F scene integrated into the design
+- **Smooth animation system** — scroll reveals, hovers, micro-interactions at 60fps
+- **3D interactive experience** — Three.js/R3F scene integrated purposefully into the design
 - **Performance-optimized build** — lazy-loaded 3D, compressed assets, efficient rendering
+- **Realistic content** — believable copy, real-sounding data, proper text lengths
 - **Design system documentation** — brief summary of palette, typography, and design rationale
 
 The final result must feel like an **award-winning modern product website** — the kind featured on Awwwards, not the kind generated by a template builder.
+
+### Cross-Agent Compatibility
+
+This skill works with any AI coding agent that supports Markdown-based skill files:
+
+| Agent | Installation |
+|-------|-------------|
+| Claude Code | `npx skills add deveshpunjabi/3d-website-skill` |
+| Cursor | Copy to `.cursor/skills/` |
+| Windsurf | Copy to `.windsurf/skills/` |
+| Cline | Copy to `.cline/skills/` |
+| Codex | Copy to `.codex/skills/` |
+| Aider | Reference in `.aider.conf` |
+| Any agent | Copy skill directory to the agent's skill/instruction folder |
+
+The skill is Markdown-based with optional reference documents — no runtime dependencies, no API keys, no build steps.

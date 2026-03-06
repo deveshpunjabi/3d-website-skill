@@ -96,6 +96,34 @@ skills/3d-website-architect/
     └── animation-patterns.md        # Framer Motion + GSAP cookbook
 ```
 
+## Cross-Agent Compatibility
+
+This skill format is compatible with all major AI coding agents:
+
+| Agent | Skill Location | Trigger Mechanism |
+|-------|---------------|-------------------|
+| Claude Code | `npx skills add` or `.claude/skills/` | YAML description matching |
+| Cursor | `.cursor/skills/` | YAML description matching |
+| Windsurf | `.windsurf/skills/` | YAML description matching |
+| Cline | `.cline/skills/` | YAML description matching |
+| Codex | `.codex/skills/` or `.agents/skills/` | Instruction file loading |
+| Aider | Referenced in `.aider.conf` | Direct file reference |
+| Gemini | Agent instruction directory | Instruction file loading |
+
+The skill uses standard Markdown with YAML frontmatter — no proprietary
+syntax, no agent-specific tags. Any agent that can read Markdown instruction
+files can use this skill.
+
+### YAML Frontmatter Fields
+
+| Field | Required | Used By | Purpose |
+|-------|----------|---------|---------|
+| `name` | Yes | All agents | Skill identifier |
+| `description` | Yes | All agents | Trigger matching — when to activate |
+| `version` | Recommended | skills.sh, registries | Semantic versioning |
+| `author` | Recommended | skills.sh, registries | Creator attribution |
+| `tags` | Recommended | Discovery, search | Keywords for finding the skill |
+
 ---
 
 ## Running Validations

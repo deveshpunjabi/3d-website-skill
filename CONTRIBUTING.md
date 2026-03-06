@@ -8,12 +8,24 @@ Thanks for your interest in improving the 3D Website Architect skill.
 
 The skill lives in `skills/3d-website-architect/SKILL.md`. When editing:
 
-- Keep the file under 700 lines (currently 633) — if it grows beyond that,
+- Keep the file under 700 lines — if it grows beyond that,
   move detail into `references/` files
 - Explain *why* a design or 3D principle matters, not just *what* to do
 - Avoid rigid MUST/NEVER rules — explain the reasoning so the agent can
   generalize to new scenarios
 - Test your changes against the eval cases before submitting
+- Keep the YAML frontmatter fields (`name`, `description`, `version`, `author`,
+  `tags`) up to date — these are used by all agent platforms for triggering
+
+### Cross-Agent Compatibility
+
+This skill is designed to work across multiple AI coding agents (Claude Code,
+Cursor, Windsurf, Cline, Codex, Aider, Gemini, and others). When contributing:
+
+- Don't use agent-specific syntax in SKILL.md (no `<claude>` tags, etc.)
+- Keep instructions in standard Markdown
+- Test with at least 2 different agents if possible
+- The YAML frontmatter `tags` field helps agents discover the skill
 
 ### Improving References
 
